@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOK Indumentaria</title>
+    <meta name="description" content="TOK Indumentaria — Próximamente.">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="TOK Indumentaria">
+    <meta property="og:description" content="Próximamente. Seguinos en Instagram @tok.indumentaria">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <style>
+        @font-face {
+            font-family: 'Microgramma';
+            src: url('fonts/MicrogrammaDBolExt-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+            font-family: 'Microgramma', 'Arial Black', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Animated radial gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: -50%;
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
+            animation: drift 20s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes drift {
+            0%   { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(5%, -5%) rotate(15deg); }
+        }
+
+        /* Subtle scanline texture */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.015) 0px,
+                rgba(255, 255, 255, 0.015) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo-wrap {
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        }
+
+        .logo {
+            font-family: 'Microgramma', 'Arial Black', sans-serif;
+            font-size: clamp(5rem, 18vw, 14rem);
+            line-height: 0.9;
+            letter-spacing: 0.02em;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+            animation: glow 4s ease-in-out infinite;
+            user-select: none;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow:
+                    0 0 30px rgba(255, 255, 255, 0.15),
+                    0 0 60px rgba(255, 255, 255, 0.05);
+            }
+            50% {
+                text-shadow:
+                    0 0 40px rgba(255, 255, 255, 0.25),
+                    0 0 80px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        .sublogo {
+            font-family: 'Microgramma', 'Arial Black', sans-serif;
+            font-size: clamp(0.85rem, 2.5vw, 1.5rem);
+            letter-spacing: 0.45em;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.75);
+            padding-left: 0.45em;
+            opacity: 0;
+            animation: fadeIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+        }
+
+        .divider {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.4), transparent);
+            margin: 3rem 0 2rem;
+            opacity: 0;
+            animation: fadeIn 1.4s ease 1s forwards;
+        }
+
+        .tagline {
+            font-family: 'Microgramma', 'Arial Black', sans-serif;
+            font-size: clamp(1rem, 3vw, 1.6rem);
+            letter-spacing: 0.6em;
+            color: rgba(255, 255, 255, 0.9);
+            padding-left: 0.6em;
+            opacity: 0;
+            animation: fadeIn 1.4s ease 1.2s forwards, pulse 3s ease-in-out 2.6s infinite;
+        }
+
+        .tagline-sub {
+            font-family: 'Microgramma', 'Arial Black', sans-serif;
+            font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+            letter-spacing: 0.35em;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 1rem;
+            padding-left: 0.35em;
+            opacity: 0;
+            animation: fadeIn 1.4s ease 1.6s forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.9; }
+            50%      { opacity: 0.5; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .instagram {
+            position: relative;
+            margin-top: 3.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Microgramma', 'Arial Black', sans-serif;
+            font-size: clamp(0.8rem, 1.8vw, 1rem);
+            letter-spacing: 0.25em;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            animation: fadeIn 1.4s ease 2s forwards;
+            overflow: hidden;
+        }
+
+        .instagram::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .instagram:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #000;
+            border-color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+        }
+
+        .instagram:hover::before {
+            transform: translateX(100%);
+        }
+
+        .instagram svg {
+            width: 1.1em;
+            height: 1.1em;
+            transition: transform 0.4s ease;
+        }
+
+        .instagram:hover svg {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Microgramma', 'Arial Black', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: rgba(255, 255, 255, 0.25);
+            padding-left: 0.4em;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeIn 1.4s ease 2.4s forwards;
+            white-space: nowrap;
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 480px) {
+            .divider { height: 40px; margin: 2rem 0 1.5rem; }
+            .instagram { margin-top: 2.5rem; padding: 0.85rem 1.5rem; }
+            .footer { font-size: 0.55rem; letter-spacing: 0.3em; }
+        }
+
+        @media (max-height: 600px) and (orientation: landscape) {
+            .divider { height: 30px; margin: 1rem 0; }
+            .instagram { margin-top: 1.5rem; }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .logo-wrap, .sublogo, .divider, .tagline, .tagline-sub, .instagram, .footer {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="logo-wrap">
+            <div class="logo">TOK</div>
+            <div class="sublogo">INDUMENTARIA</div>
+        </div>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <div class="tagline">PRÓXIMAMENTE</div>
+        <div class="tagline-sub">COMING SOON</div>
+
+        <a class="instagram"
+           href="https://instagram.com/tok.indumentaria"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Seguinos en Instagram @tok.indumentaria">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>@TOK.INDUMENTARIA</span>
+        </a>
+    </main>
+
+    <div class="footer">© 2026 TOK INDUMENTARIA</div>
+</body>
+</html>
