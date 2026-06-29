@@ -13,8 +13,8 @@
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="styles.css">
 
-    <!-- model-viewer: render de modelos 3D (client-side, sin backend) -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
+    <!-- model-viewer: render de modelos 3D (client-side, sin backend). jsDelivr = CDN con CORS confiable. -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
 </head>
 <body data-view="home">
 
@@ -67,15 +67,16 @@
                 <p class="soon-note" data-soon-note hidden>Herramienta de diseño — próximamente 🚧</p>
             </div>
             <div class="detail__stage">
-                <!-- PLACEHOLDER: modelo con "variants" para demostrar el cambio de pintura.
-                     Reemplazar src por el .glb real de pantalón+camiseta de TOK con sus variants. -->
+                <!-- PLACEHOLDER: remera real (se repinta por código vía base-color).
+                     Reemplazar src por el .glb real del conjunto pantalón+camiseta de TOK. -->
                 <model-viewer
                     data-conjunto-model
-                    src="https://modelviewer.dev/shared-assets/models/MaterialsVariantsShoe.glb"
-                    alt="Conjunto TOK (placeholder)"
-                    auto-rotate auto-rotate-delay="0" rotation-per-second="24deg"
+                    src="https://cdn.jsdelivr.net/gh/Starklord17/threejs-t-shirt@main/public/shirt_baked.glb"
+                    alt="Remera TOK (placeholder)"
+                    auto-rotate auto-rotate-delay="0" rotation-per-second="26deg"
                     camera-controls touch-action="pan-y"
-                    shadow-intensity="1" exposure="1.1"
+                    camera-orbit="0deg 80deg 2.4m"
+                    shadow-intensity="1" exposure="1.15"
                     interaction-prompt="none"
                     loading="eager">
                     <div class="model-loader" slot="progress-bar"></div>
@@ -89,8 +90,9 @@
     <section class="view view--detail" data-view-id="sponsor" hidden>
         <button class="back" data-back aria-label="Volver">← Volver</button>
         <div class="detail__grid detail__grid--sponsor">
-            <div class="sponsor__media" role="img" aria-label="Imagen sponsor (placeholder)">
-                <span class="sponsor__media-label">IMAGEN<br>SPONSOR</span>
+            <div class="sponsor__media">
+                <img class="sponsor__media-img" src="assets/sponsor.svg"
+                     alt="TOK sponsor de torneos — fútbol y básquet" />
             </div>
             <div class="detail__copy">
                 <p class="detail__kicker">02 / Sponsor de torneos</p>

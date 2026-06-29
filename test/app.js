@@ -68,41 +68,54 @@ if (designBtn) {
     });
 }
 
-/* ---------- Cambio de pintura (material variants) ---------- */
+/* ---------- Cambio de pintura (repinta el material base de la prenda) ---------- */
+// Paleta de "pinturas". rgb en 0..1 para la API de model-viewer.
+const PAINTS = [
+    { name: 'Blanco', css: '#f2f2f2', rgb: [0.95, 0.95, 0.95] },
+    { name: 'Negro',  css: '#1c1c1c', rgb: [0.11, 0.11, 0.11] },
+    { name: 'Rojo',   css: '#c0392b', rgb: [0.75, 0.16, 0.13] },
+    { name: 'Azul',   css: '#2d6cdf', rgb: [0.18, 0.42, 0.87] },
+];
+
+// Repinta el primer material del modelo. Funciona con el .glb real cuando tenga
+// el conjunto; si el modelo trae varios materiales, ajustar el índice/selección.
+function paint(mv, rgb) {
+    const mat = mv.model && mv.model.materials && mv.model.materials[0];
+    if (mat) mat.pbrMetallicRoughness.setBaseColorFactor([...rgb, 1]);
+}
+
 const conjunto = document.querySelector('[data-conjunto-model]');
 const pills = document.querySelector('[data-variant-pills]');
 
 if (conjunto && pills) {
-    conjunto.addEventListener('load', () => {
-        const variants = conjunto.availableVariants || [];
-        pills.innerHTML = '';
-
-        if (!variants.length) return; // el modelo real puede no tener variants aún
-
-        variants.forEach((name, i) => {
-            const pill = document.createElement('button');
-            pill.className = 'variant-pill';
-            pill.type = 'button';
-            pill.textContent = name;
-            pill.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
-            pill.addEventListener('click', () => {
-                conjunto.variantName = name;
-                pills.querySelectorAll('.variant-pill')
-                    .forEach(p => p.setAttribute('aria-pressed', p === pill ? 'true' : 'false'));
-            });
-            pills.appendChild(pill);
+    pills.innerHTML = '<span class="variant-pills-label">Pintura</span>';
+    PAINTS.forEach((p, i) => {
+        const pill = document.createElement('button');
+        pill.className = 'variant-pill';
+        pill.type = 'button';
+        pill.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+        pill.innerHTML = `<span class="swatch" style="background:${p.css}"></span>${p.name}`;
+        pill.addEventListener('click', () => {
+            paint(conjunto, p.rgb);
+            pills.querySelectorAll('.variant-pill')
+                .forEach(b => b.setAttribute('aria-pressed', b === pill ? 'true' : 'false'));
         });
-    }, { once: true });
+        pills.appendChild(pill);
+    });
+    // pintura inicial al cargar el modelo
+    conjunto.addEventListener('load', () => paint(conjunto, PAINTS[0].rgb), { once: true });
 }
 
 /* ---------- Carousel de la marca ---------- */
-/* PLACEHOLDERS: cada item es un modelo distinto representando una prenda.
-   Reemplazar `src` por los .glb reales (camiseta, short, musculosa, etc.). */
+/* La camiseta es un modelo real (repintado por color). Short y musculosa quedan
+   como "próximamente" hasta tener los .glb reales de esas prendas. */
+const SHIRT = 'https://cdn.jsdelivr.net/gh/Starklord17/threejs-t-shirt@main/public/shirt_baked.glb';
 const PRODUCTS = [
-    { name: 'Camiseta de fútbol', tag: 'Línea TOK', src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb' },
-    { name: 'Short',              tag: 'Línea TOK', src: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb' },
-    { name: 'Musculosa básquet',  tag: 'Línea TOK', src: 'https://modelviewer.dev/shared-assets/models/shishkebab.glb' },
-    { name: 'Camiseta retro',     tag: 'Línea TOK', src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb' },
+    { type: 'model', name: 'Camiseta de fútbol', tag: 'Línea TOK', src: SHIRT, rgb: [0.11, 0.11, 0.11] },
+    { type: 'model', name: 'Camiseta — Roja',    tag: 'Línea TOK', src: SHIRT, rgb: [0.75, 0.16, 0.13] },
+    { type: 'model', name: 'Camiseta — Azul',    tag: 'Línea TOK', src: SHIRT, rgb: [0.18, 0.42, 0.87] },
+    { type: 'soon',  name: 'Short',              tag: 'Línea TOK' },
+    { type: 'soon',  name: 'Musculosa básquet',  tag: 'Línea TOK' },
 ];
 
 const track = document.querySelector('[data-carousel-track]');
@@ -112,15 +125,25 @@ if (track) {
     PRODUCTS.forEach((p, i) => {
         const item = document.createElement('div');
         item.className = 'carousel__item';
-        item.innerHTML = `
-            <model-viewer src="${p.src}" alt="${p.name} (placeholder)"
-                auto-rotate auto-rotate-delay="0" rotation-per-second="28deg"
-                camera-controls touch-action="pan-y" interaction-prompt="none"
-                shadow-intensity="0.8" exposure="1.1" loading="lazy"></model-viewer>
-            <div class="carousel__caption">
-                <strong>${p.name}</strong>
-                <span>${p.tag}</span>
-            </div>`;
+
+        if (p.type === 'model') {
+            item.innerHTML = `
+                <model-viewer src="${p.src}" alt="${p.name}"
+                    auto-rotate auto-rotate-delay="0" rotation-per-second="30deg"
+                    camera-controls touch-action="pan-y" interaction-prompt="none"
+                    camera-orbit="0deg 80deg 2.6m"
+                    shadow-intensity="0.8" exposure="1.15" loading="lazy"></model-viewer>
+                <div class="carousel__caption"><strong>${p.name}</strong><span>${p.tag}</span></div>`;
+            const mv = item.querySelector('model-viewer');
+            mv.addEventListener('load', () => paint(mv, p.rgb), { once: true });
+        } else {
+            item.innerHTML = `
+                <div class="carousel__soon">
+                    <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 7l5-3 3 2 3-2 5 3-3 3v9H7v-9z"/></svg>
+                    <span>Modelo próximamente</span>
+                </div>
+                <div class="carousel__caption"><strong>${p.name}</strong><span>${p.tag}</span></div>`;
+        }
         track.appendChild(item);
 
         const dot = document.createElement('span');
