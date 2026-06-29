@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TOK — Test</title>
+
+    <!-- WIP privado: fuera de buscadores -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="TOK Indumentaria — preview interno.">
+
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- model-viewer: render de modelos 3D (client-side, sin backend) -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
+</head>
+<body data-view="home">
+
+    <!-- ===================== LANDING / HOME ===================== -->
+    <section class="view view--home" data-view-id="home">
+        <header class="brand">
+            <div class="brand__logo">TOK</div>
+            <div class="brand__sub">INDUMENTARIA</div>
+        </header>
+
+        <nav class="panels" aria-label="Secciones">
+            <button class="panel" data-goto="conjuntos" style="--i:0">
+                <span class="panel__index">01</span>
+                <span class="panel__title">Conjuntos<br>personalizados</span>
+                <span class="panel__desc">Para equipos · diseño a medida</span>
+                <span class="panel__cta">Ver →</span>
+            </button>
+
+            <button class="panel" data-goto="sponsor" style="--i:1">
+                <span class="panel__index">02</span>
+                <span class="panel__title">Sponsor<br>de torneos</span>
+                <span class="panel__desc">Descuentos para tu torneo</span>
+                <span class="panel__cta">Ver →</span>
+            </button>
+
+            <button class="panel" data-goto="marca" style="--i:2">
+                <span class="panel__index">03</span>
+                <span class="panel__title">Ropa de<br>nuestra marca</span>
+                <span class="panel__desc">Camisetas · shorts · básquet</span>
+                <span class="panel__cta">Ver →</span>
+            </button>
+        </nav>
+
+        <footer class="home-foot">© 2026 TOK INDUMENTARIA</footer>
+    </section>
+
+    <!-- ===================== CONJUNTOS ===================== -->
+    <section class="view view--detail" data-view-id="conjuntos" hidden>
+        <button class="back" data-back aria-label="Volver">← Volver</button>
+        <div class="detail__grid">
+            <div class="detail__copy">
+                <p class="detail__kicker">01 / Conjuntos personalizados</p>
+                <h1 class="detail__title">Conjuntos<br>para tu equipo</h1>
+                <p class="detail__text">
+                    Diseñamos camiseta y pantalón a medida para tu equipo.
+                    Elegí un diseño de los que ya hicimos, o creá el tuyo desde cero.
+                </p>
+                <div class="variant-pills" data-variant-pills aria-label="Diseños"></div>
+                <a class="btn btn--primary" href="#" data-coming-soon>Diseñá tu propio conjunto</a>
+                <p class="soon-note" data-soon-note hidden>Herramienta de diseño — próximamente 🚧</p>
+            </div>
+            <div class="detail__stage">
+                <!-- PLACEHOLDER: modelo con "variants" para demostrar el cambio de pintura.
+                     Reemplazar src por el .glb real de pantalón+camiseta de TOK con sus variants. -->
+                <model-viewer
+                    data-conjunto-model
+                    src="https://modelviewer.dev/shared-assets/models/MaterialsVariantsShoe.glb"
+                    alt="Conjunto TOK (placeholder)"
+                    auto-rotate auto-rotate-delay="0" rotation-per-second="24deg"
+                    camera-controls touch-action="pan-y"
+                    shadow-intensity="1" exposure="1.1"
+                    interaction-prompt="none"
+                    loading="eager">
+                    <div class="model-loader" slot="progress-bar"></div>
+                </model-viewer>
+                <p class="stage-hint">Arrastrá para rotar · placeholder</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SPONSOR ===================== -->
+    <section class="view view--detail" data-view-id="sponsor" hidden>
+        <button class="back" data-back aria-label="Volver">← Volver</button>
+        <div class="detail__grid detail__grid--sponsor">
+            <div class="sponsor__media" role="img" aria-label="Imagen sponsor (placeholder)">
+                <span class="sponsor__media-label">IMAGEN<br>SPONSOR</span>
+            </div>
+            <div class="detail__copy">
+                <p class="detail__kicker">02 / Sponsor de torneos</p>
+                <h1 class="detail__title">Sponsoreamos<br>tu torneo</h1>
+                <p class="detail__text">
+                    ¿Organizás un torneo con la app <strong>Sporta</strong>? Pedí el sponsor de
+                    <strong>TOK</strong> y te bancamos con descuentos exclusivos.
+                </p>
+                <ul class="perks">
+                    <li><span class="perks__pct">20%</span> de descuento en tu <strong>primer torneo</strong></li>
+                    <li><span class="perks__pct">25%</span> de descuento en los <strong>siguientes</strong></li>
+                </ul>
+                <p class="detail__text detail__text--small">
+                    Creá tu torneo en Sporta y solicitá el sponsor de TOK desde la app.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== MARCA ===================== -->
+    <section class="view view--detail" data-view-id="marca" hidden>
+        <button class="back" data-back aria-label="Volver">← Volver</button>
+        <div class="marca">
+            <div class="marca__head">
+                <p class="detail__kicker">03 / Ropa de nuestra marca</p>
+                <h1 class="detail__title">Hecho por TOK</h1>
+                <p class="detail__text">
+                    Camisetas de fútbol, shorts y musculosas de básquet. Diseño propio,
+                    calidad de cancha. Deslizá para ver la colección.
+                </p>
+            </div>
+
+            <div class="carousel" data-carousel>
+                <button class="carousel__nav carousel__nav--prev" data-carousel-prev aria-label="Anterior">‹</button>
+                <div class="carousel__track" data-carousel-track></div>
+                <button class="carousel__nav carousel__nav--next" data-carousel-next aria-label="Siguiente">›</button>
+            </div>
+            <div class="carousel__dots" data-carousel-dots aria-hidden="true"></div>
+        </div>
+    </section>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
